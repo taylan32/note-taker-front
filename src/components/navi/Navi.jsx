@@ -55,7 +55,7 @@ export default function Navi() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Ana Sayfa 
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

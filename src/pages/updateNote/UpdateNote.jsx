@@ -1,31 +1,32 @@
-import { Box, Button, TextField } from "@mui/material";
-import { Container } from "@mui/system";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { Container, Box, TextField, Button } from "@mui/material";
+import { updateNote } from "../../redux/features/note/noteSlice";
 import { useNavigate } from "react-router-dom";
-import { createNote } from "../../redux/features/note/noteSlice";
 
-export default function AddNote() {
+export default function UpdateNote() {
+  const { selectedNote } = useSelector((state) => state.note);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
   const [values, setValues] = React.useState({
-   title:"",
-   description:""
+    id: selectedNote.id,
+    title: selectedNote.title,
+    description: selectedNote.description,
   });
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
-  const handleSubmit = async () => {
-    dispatch(createNote(values))
+  const handleSubmit = () => {
+    dispatch(updateNote(values));
     navigate("/")
-  }
+  };
 
   return (
     <div>
-      <Container maxWidth="xs" style={{ paddingTop: "2rem" }}>
+      <Container maxWidth="xs">
         <form>
           <Box
             component="form"
@@ -35,29 +36,27 @@ export default function AddNote() {
             noValidate
             autoComplete="off"
           >
-            <TextField 
-              id="outlined-basic" 
-              label="Title" 
+            <TextField
+              id="outlined-basic"
+              label="Title"
               value={values.title}
-              variant="outlined" 
-              onChange={handleChange('title')}
-
+              variant="outlined"
+              onChange={handleChange("title")}
             />
             <TextField
               id="outlined-basic"
               label="Description"
               variant="outlined"
               value={values.description}
-              onChange={handleChange('description')}
+              onChange={handleChange("description")}
             />
             <Button
               variant="contained"
               color="success"
-              // type="submit"
               sx={{ maxWidth: "50%", alignItems: "center" }}
-              onClick = {() => handleSubmit()}
+              onClick={() => handleSubmit()}
             >
-              Ekle
+              Güncelle
             </Button>
           </Box>
         </form>
